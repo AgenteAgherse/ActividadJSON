@@ -20,14 +20,18 @@ form legend{
 }
 
 form input[type="submit"]{
-    margin-left: 10%;
+    margin-left: 35%;
     margin-bottom: 20px;
 }
 
+input[type="submit"]{
+    margin-left: 40%;
+    margin-bottom: 20px;
+}
 .resultados{
     margin-top: 40px;
 }
 
-    .resultados table tr:nth-child(odd){
+    .resultados table tbody tr:nth-child(odd){
         background-color: rgb(216, 214, 214);
     }
