@@ -1,0 +1,33 @@
+#header{
+    background: linear-gradient(to right, rgb(25, 150, 0), rgb(10, 207, 3));
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-bottom: 20px;
+    height: 100px;
+}
+
+    #header img{
+        margin-top: 5px;
+        margin-left: 5px;
+        height: 90px;
+    }
+#formulario form{
+    margin-left: 10%;
+}
+
+form legend{
+    text-align: center;
+}
+
+form input[type="submit"]{
+    margin-left: 10%;
+    margin-bottom: 20px;
+}
+
+.resultados{
+    margin-top: 40px;
+}
+
+    .resultados table tr:nth-child(odd){
+        background-color: rgb(216, 214, 214);
+    }
