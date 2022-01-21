@@ -25,7 +25,6 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="col-7" id="formulario" style="background-color: azure;">
-                <form action="#" method="get">
                     <!--Selección de la carrera-->
                     <legend>Datos De consulta</legend>
                     
@@ -67,10 +66,11 @@
 
                     <!--Botón de consulta-->
                     <p></p>
-                        <input type="submit" value="Ver Por Facultad" class="btn btn-primary" onclick="primerFiltro()">
-                        <input type="submit" value="Ver Por Estrato" class="btn btn-primary" onclick="segundoFiltro()">
-                </form>
-                <input type="submit" value="Ver todos los datos" class="btn btn-success" onclick="mostrarTodos()">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-primary form-control" onclick="primerFiltro()">Ver Por Facultad</button>
+                            <button class="btn btn-primary form-control" onclick="segundoFiltro()">Ver Por Estrato</button>
+                            <button class="btn btn-success form-control" onclick="mostrarTodos()">Ver Todos Los Datos</button>
+                        </div>
             </div>
             <div class="col-3"></div>
         </div>
@@ -106,15 +106,13 @@
 
 
     <script>
-            function mostrarTodos(){
-                const tabla = document.querySelector('#cuerpoTabla');
-                const opciones = {
-                method: 'GET'
-            }
-            fetch('https://www.datos.gov.co/resource/tnus-a4s5.json', opciones).then(respuesta => respuesta.json()).then(resultado => {
-                resultado.forEach(element => {
-                    tabla.innerHTML += `
-                        <tr>
+            mostrarTodos = async function(){
+                eliminarFilas();
+                const tabla = document.getElementById('cuerpoTabla');
+                const response = await fetch('https://www.datos.gov.co/resource/tnus-a4s5.json').then(respuesta => respuesta.json()).then(resultado => {
+                    resultado.forEach(element => {
+                        tabla.innerHTML += `
+                        <tr id="filaConsulta">
                                 <td>${element.periodo}</td>
                                 <td>${element.facultad}</td>
                                 <td>${element.programa}</td>
@@ -136,26 +134,24 @@
 
         //ELIMINA LAS FILAS DE LA TABLA
         function eliminarFilas(){
-            var eliminar = document.getElementById('cuerpoTabla'); //SELECCIONAMOS EL CUERPO DE LA TABLA
-            var cantidadFilas = eliminar.getElementsByTagName('tr'); //OBTENEMOS EN UN ARRAY LA INFORMACIÓN DEL CUERPO DE LA TABLA
-            var cantidad = cantidadFilas.length; //HALLAMOS SU LONGITUD
-            alert('Cantidad de filas: ' + cantidad); //NOTIFICAMOS LA CANTIDAD DE FILAS QUE HAY ACTUALMENTE
-            for(i = cantidad-1; i>=0; i--){ //HACEMOS UN BUCLE PARA ELIMINAR LAS FILAS UNO POR UNO
-                eliminar.removeChild(cantidadFilas[i]); //ELIMINAMOS EL HIJO SELECCIONADO DE LA VARIABLE ELIMINAR
+            var eliminar = document.getElementById('cuerpoTabla');
+            var cantidadFilas = eliminar.getElementsByTagName('tr');
+            var cantidad = cantidadFilas.length;
+            for(i = cantidad-1; i>=0; i--){
+                eliminar.removeChild(cantidadFilas[i]);
             }
         }
 
-        function primerFiltro(){
-            //eliminarFilas();
-            const tabla = document.querySelector('#cuerpoTabla');
-                const opciones = {
-                method: 'GET'
-            }
-            fetch('https://www.datos.gov.co/resource/tnus-a4s5.json', opciones).then(respuesta => respuesta.json()).then(resultado => {
+        primerFiltro = async function(){
+            eliminarFilas();
+            let facultadSeleccionada = document.getElementById('opcion').value;
+            console.log(facultadSeleccionada);
+            let tabla = document.getElementById('cuerpoTabla');
+            const response = await fetch('https://www.datos.gov.co/resource/tnus-a4s5.json').then(respuesta => respuesta.json()).then(resultado => {
                 resultado.forEach(element => {
-                        if(document.getElementById('opcion').value == element.facultad){
+                        if(facultadSeleccionada == element.facultad){
                             tabla.innerHTML += `
-                                <tr>
+                                <tr id="filaConsulta">
                                         <td>${element.periodo}</td>
                                         <td>${element.facultad}</td>
                                         <td>${element.programa}</td>
@@ -175,18 +171,16 @@
                 });
         }
 
-        function segundoFiltro(){
+        segundoFiltro = async function(){
+            eliminarFilas();
             var estrato = document.querySelector('#estrato').value;
             console.log(estrato);
             const tabla = document.querySelector('#cuerpoTabla');
-                const opciones = {
-                method: 'GET'
-            }
-            fetch('https://www.datos.gov.co/resource/tnus-a4s5.json', opciones).then(respuesta => respuesta.json()).then(resultado => {
+            const response = await fetch('https://www.datos.gov.co/resource/tnus-a4s5.json').then(respuesta => respuesta.json()).then(resultado => {
                 resultado.forEach(element => {
                         if(estrato == 1){
                             tabla.innerHTML += `
-                                <tr>
+                                <tr id="filaConsulta">
                                         <td>${element.periodo}</td>
                                         <td>${element.facultad}</td>
                                         <td>${element.programa}</td>
@@ -204,7 +198,7 @@
                         }
                         else if(estrato == 2){
                             tabla.innerHTML += `
-                                <tr>
+                                <tr id="filaConsulta">
                                         <td>${element.periodo}</td>
                                         <td>${element.facultad}</td>
                                         <td>${element.programa}</td>
@@ -222,7 +216,7 @@
                         }
                         else if(estrato == 3){
                             tabla.innerHTML += `
-                                <tr>
+                                <tr id="filaConsulta">
                                         <td>${element.periodo}</td>
                                         <td>${element.facultad}</td>
                                         <td>${element.programa}</td>
@@ -240,7 +234,7 @@
                         }
                         else if(estrato == 4){
                             tabla.innerHTML += `
-                                <tr>
+                                <tr id="filaConsulta">
                                         <td>${element.periodo}</td>
                                         <td>${element.facultad}</td>
                                         <td>${element.programa}</td>
@@ -258,7 +252,7 @@
                         }
                         else if(estrato == 5){
                             tabla.innerHTML += `
-                                <tr>
+                                <tr id="filaConsulta">
                                         <td>${element.periodo}</td>
                                         <td>${element.facultad}</td>
                                         <td>${element.programa}</td>
@@ -276,7 +270,7 @@
                         }
                         else{
                             tabla.innerHTML += `
-                                <tr>
+                                <tr id="filaConsulta">
                                         <td>${element.periodo}</td>
                                         <td>${element.facultad}</td>
                                         <td>${element.programa}</td>
